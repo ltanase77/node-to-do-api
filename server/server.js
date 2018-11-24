@@ -1,9 +1,10 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const {mongoose} = require('./db/mongoose')
-const {Todo} = require('./models/todo')
-const {User} = require('./models/users')
+const {mongoose} = require('./db/mongoose');
+const {Todo} = require('./models/todo');
+const {User} = require('./models/users');
+const {ObjectID} = require('mongodb');
 
 const app = express();
 
@@ -27,6 +28,25 @@ app.get('/todos', (request, response) => {
     }).catch( (err) => {
         response.status(400).send(err);
     });
+})
+
+// GET individual todo
+app.get('/todos/:id', (request, response) => {
+    var id  = request.params.id;
+
+    if (!ObjectID.isValid(id)) {
+        response.status(404).send();
+    }
+
+    Todo.findById(id).then((todo) => {
+        if (todo) {
+            response.status(200).send({todo});
+        } else {
+            response.status(404).send({});
+        }
+    }).catch((err) => {
+        response.status(400).send();
+    })
 })
 
 app.listen(3000, () => {
