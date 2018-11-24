@@ -4,7 +4,7 @@ const User = mongoose.model('User', {
         type: String,
         required: true,
         minlength: 1,
-        trim: true
+        trim: true,
     },
 });
 
