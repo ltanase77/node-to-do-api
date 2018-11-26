@@ -10,24 +10,24 @@ MongoClient.connect('mongodb://localhost:27017/ToDoApp', (error, client) => {
 
     database.collection('Users').findOneAndUpdate(
         {
-            name: 'Matei Tanase'
-        }, 
+            name: 'Matei Tanase',
+        },
         {
             $set: {
-                name: 'Razvan-Matei Tanase'
+                name: 'Razvan-Matei Tanase',
             },
 
             $inc: {
-                age: +1
-            }
+                age: +1,
+            },
         },
         {
-            returnOriginal: false
-        }).then((result) => {
+            returnOriginal: false,
+        })
+        .then((result) => {
             console.log(result);
         }).catch((error) => {
             console.log('Unable to make the changes', error);
-        })
-    //client.close()
-
+        });
+    // client.close()
 });
