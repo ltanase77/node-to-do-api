@@ -52,6 +52,25 @@ UserSchema.methods.generateAuthToken = function() {
     });
 };
 
+UserSchema.statics.findByToken = function(token) {
+    const User = this;
+    let decoded;
+    try {
+        decoded = jwt.verify(token, 'rhemaxos');
+    } catch(err) {
+        /* return new Promise((resolve, reject) => {
+            rejcect();
+        }); */
+        return Promise.reject();
+    }
+    return User.findOne({
+        '_id': decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth',
+
+    });
+};
+
 const User = mongoose.model('User', UserSchema);
 
 module.exports = {
