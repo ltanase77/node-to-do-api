@@ -58,7 +58,7 @@ UserSchema.statics.findByToken = function(token) {
     let decoded;
     try {
         decoded = jwt.verify(token, 'rhemaxos');
-    } catch(err) {
+    } catch (err) {
         /* return new Promise((resolve, reject) => {
             rejcect();
         }); */
