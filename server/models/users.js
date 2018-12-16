@@ -90,6 +90,17 @@ UserSchema.statics.findByCredentials = function(email, password) {
     });
 };
 
+UserSchema.methods.removeToken = function(token) {
+    const user = this;
+    return user.update({
+        $pull: {
+            tokens: {
+                token: token,
+            },
+        },
+    });
+};
+
 UserSchema.pre('save', function(next) {
     const User = this;
     if (User.isModified('password')) {
