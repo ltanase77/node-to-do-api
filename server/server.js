@@ -11,6 +11,7 @@ const {authenticate} = require('./middleware/authenticate');
 
 const app = express();
 const port = process.env.PORT;
+const env = process.env.NODE_ENV;
 
 app.use(bodyParser.json());
 
@@ -126,7 +127,7 @@ app.post('/users/login', (request, response) => {
     User.findByCredentials(body.email, body.password).then((user) => {
         return user.generateAuthToken().then((token) => {
             response.header('x-auth', token).send(user);
-        })
+        });
     }).catch((error) => {
         response.status(400).send({error});
     });
@@ -142,6 +143,7 @@ app.delete('/users/me/token', authenticate, function(request, response) {
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
+    console.log( `***** ${env} *****`);
 });
 
 module.exports = {

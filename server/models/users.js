@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
             validator: (value) => {
                 return validator.isEmail(value);
             },
-            message: '{VALUE} isnot a valid email address',
+            message: '{VALUE} is not a valid email address',
         },
     },
 
@@ -46,7 +46,7 @@ UserSchema.methods.toJSON = function() {
 UserSchema.methods.generateAuthToken = function() {
     const user = this;
     const access = 'auth';
-    const token = jwt.sign({_id: user._id.toHexString(), access}, 'rhemaxos').toString();
+    const token = jwt.sign({_id: user._id.toHexString(), access}, process.env.JWT_SECRET).toString();
     user.tokens.push({access, token});
     return user.save().then(() => {
         return token;
@@ -57,7 +57,7 @@ UserSchema.statics.findByToken = function(token) {
     const User = this;
     let decoded;
     try {
-        decoded = jwt.verify(token, 'rhemaxos');
+        decoded = jwt.verify(token, process.env.JWT_SECRET);
     } catch (err) {
         /* return new Promise((resolve, reject) => {
             rejcect();
