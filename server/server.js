@@ -11,7 +11,6 @@ const {authenticate} = require('./middleware/authenticate');
 
 const app = express();
 const port = process.env.PORT;
-const env = process.env.NODE_ENV;
 
 app.use(bodyParser.json());
 
@@ -143,7 +142,7 @@ app.delete('/users/me/token', authenticate, function(request, response) {
 
 app.listen(port, () => {
     console.log(`Started on port ${port}`);
-    console.log( `***** ${env} *****`);
+    console.log( `***** ${process.env.MONGODB_URI} *****`);
 });
 
 module.exports = {
