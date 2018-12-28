@@ -1,4 +1,3 @@
-
 const expect = require('expect');
 const supertest = require('supertest');
 const {ObjectID} = require('mongodb');
@@ -12,7 +11,6 @@ beforeEach(populateUsers);
 
 describe('POST /todos', function() {
     it('should create a new todo', function(done) {
-        this.timeout(3500);
         const text = "A new todo";
         supertest(app)
             .post('/todos')
@@ -319,7 +317,7 @@ describe('POST /users/login', function() {
                     return done(error);
                 }
                 User.findById(users[1]._id).then((user) => {
-                    expect(user.tokens[1]).toMatchObject({
+                    expect(user.toObject().tokens[1]).toMatchObject({
                         access: 'auth',
                         token: response.headers['x-auth'],
                     });
